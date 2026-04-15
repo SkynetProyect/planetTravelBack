@@ -19,8 +19,7 @@ Esta API consume datos en tiempo real desde una fuente externa y los expone medi
 ## Funcionalidades principales
 
 - Consultar todos los países
-- Obtener información detallada de un país
-- Buscar países por nombre
+- Obtener información detallada de un país, accediendo por codigo unico o nombre
 - Calcular la distancia aproximada entre dos países
 
 ---
