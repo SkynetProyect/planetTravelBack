@@ -1,36 +1,37 @@
 import { Request, Response } from 'express';
-import CountryAdapter from '../../application/usecase/CountryUsecase';
+import CountryUsecase from '../../application/usecase/CountryUsecase';
 import { Country } from '../../domain/Country';
 
 class CountryController{
 
-    private readonly adaptadorPaises: CountryAdapter;
+    private readonly countryUseCase: CountryUsecase;
+    
 
-    constructor(countryAdapter: CountryAdapter){
-        this.adaptadorPaises = countryAdapter;
+    constructor(countryUseCase: CountryUsecase){
+        this.countryUseCase = countryUseCase;
     }
 
     public getCountries(req: Request, res: Response) {
-        const respuesta = this.adaptadorPaises.getAllCountries();
+        const respuesta = this.countryUseCase.getAllCountries();
         res.json(respuesta);
     };
 
 
     public getCountryByCode(req: Request, res: Response) {
       const { code } = req.params as { code: string };
-      const respuesta = this.adaptadorPaises.getCountryByCode(code);
+      const respuesta = this.countryUseCase.getCountryByCode(code);
       res.json(respuesta);
     };
     
     public getCountryByName(req: Request, res: Response) {
       const { name } = req.query as { name: string };
-      const respuesta = this.adaptadorPaises.getCountryByName(name);
+      const respuesta = this.countryUseCase.getCountryByName(name);
       res.json(respuesta);
     };
     
     public getDistance(req: Request, res: Response) {
       const { from, to } = req.body as { from: Country, to: Country };
-      const respuesta = this.adaptadorPaises.getDistance(from, to);
+      const respuesta = this.countryUseCase.getDistance(from, to);
       res.json(respuesta);
     };
 
