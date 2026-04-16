@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import CountryAdapter from '../../application/usecase/CountryUsecase';
+import { Country } from '../../domain/Country';
 
 class CountryController{
 
@@ -16,20 +17,20 @@ class CountryController{
 
 
     public getCountryByCode(req: Request, res: Response) {
-      const { code } = req.params;
+      const { code } = req.params as { code: string };
       const respuesta = this.adaptadorPaises.getCountryByCode(code);
       res.json(respuesta);
     };
     
     public getCountryByName(req: Request, res: Response) {
-      const { name } = req.query;
+      const { name } = req.query as { name: string };
       const respuesta = this.adaptadorPaises.getCountryByName(name);
       res.json(respuesta);
     };
     
     public getDistance(req: Request, res: Response) {
-      const { from, to } = req.query;
-      const respuesta = this.adaptadorPaises.getDistance();
+      const { from, to } = req.body as { from: Country, to: Country };
+      const respuesta = this.adaptadorPaises.getDistance(from, to);
       res.json(respuesta);
     };
 
