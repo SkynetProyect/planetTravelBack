@@ -1,5 +1,5 @@
 import express from 'express';
-import countriesRouter from '../../infrastructure/entrypoints/rest/router/RestRouter';
+import countriesRouter from './src/infrastructure/entrypoints/rest/router/RestRouter';
 
 const app = express();
 

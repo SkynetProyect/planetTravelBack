@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import CountryAdapter from '../../../adaptaders/api/adapter/CountryAdapter';
+import CountryAdapter from '../../application/usecase/CountryUsecase';
 
-class CountryHandler{
+class CountryController{
 
     private readonly adaptadorPaises: CountryAdapter;
 
@@ -35,4 +35,4 @@ class CountryHandler{
 
 }
 
-export default CountryHandler;
+export default CountryController;
