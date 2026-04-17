@@ -1,0 +1,9 @@
+# Dependencias
+node_modules/
+
+# Carpetas compilacion
+dist/
+out/
+
+# Variables de entorno 
+.env
