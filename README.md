@@ -55,7 +55,7 @@ GET /countries/:code
 Obtiene la información de un país específico a partir de su nombre.
 
 ```
-GET /countries?name=Colombia
+GET /countries/search?name=Colombia
 ```
 
 - **Query params:**
@@ -102,5 +102,9 @@ GET /countries/distance?from=Colombia&to=Peru
 3. Iniciar el servidor:
    ```
    npm start
+   ```
+4. Ejecutar en modo desarrollo:
+   ```
+   npm run dev
    ```
 
