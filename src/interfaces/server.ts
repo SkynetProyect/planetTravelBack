@@ -1,4 +1,5 @@
 import express, { Router } from 'express';
+import cors from 'cors';
 
 export class Server {
 
@@ -12,6 +13,8 @@ export class Server {
     }
 
     async start() {
+        this.app.use(cors());
+        this.app.use(express.json());
 
         this.app.use(this.routes);
 
