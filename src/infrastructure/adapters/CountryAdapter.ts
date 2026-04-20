@@ -5,13 +5,32 @@ import { CountryMapper } from '../mappers/CountryMapper';
 class CountryAdapter implements CountryUsecaseInterface{
 
     private readonly BASE_URL = "https://restcountries.com/v3.1";
-    private readonly FIELDS = "ccn3,name,area,capital,latlng,languages,currencies,flag,maps,population";
+    /** Máximo 10 campos en la API pública; `flag` (emoji) se omite para dejar sitio a `flags` (URLs). */
+    private readonly FIELDS =
+        "ccn3,name,area,capital,latlng,languages,currencies,flags,maps,population";
 
 
     public async getAllCountries(): Promise<Country[]> {
-        const response = await fetch(`${this.BASE_URL}/all?fields=${this.FIELDS}`);
-        if (!response.ok) throw new Error("Fallo peticion para obtener paises");
-        const data = await response.json();
+        const url = `${this.BASE_URL}/all?fields=${this.FIELDS}`;
+        let response: Response;
+        try {
+            response = await fetch(url);
+        } catch (e) {
+            const msg = e instanceof Error ? e.message : String(e);
+            throw new Error(`No se pudo conectar con REST Countries (${msg})`);
+        }
+        if (!response.ok) {
+            const body = await response.text();
+            throw new Error(
+                `REST Countries respondió ${response.status}: ${body.slice(0, 200)}`,
+            );
+        }
+        const data: unknown = await response.json();
+        if (!Array.isArray(data)) {
+            throw new Error(
+                `REST Countries devolvió un cuerpo inesperado (no es un array): ${JSON.stringify(data).slice(0, 200)}`,
+            );
+        }
         return CountryMapper.toEntityList(data);
     }   
     

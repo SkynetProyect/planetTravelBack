@@ -13,6 +13,13 @@ export interface Maps {
   openStreetMaps:  string;  
 }
 
+/** URLs de bandera (REST Countries `flags`) */
+export interface CountryFlags {
+  png: string;
+  svg: string;
+  alt: string;
+}
+
 export interface CountryProps {
   ccn3:        string;                     
   name:        CountryName;              
@@ -21,7 +28,9 @@ export interface CountryProps {
   latlng:      [number, number];            
   languages:   Record<string, string>;      
   currencies:  Record<string, Currency>;     
-  flag:        string;                     
+  /** Emoji de bandera */
+  flag:        string;
+  flags:       CountryFlags;
   maps:        Maps;                     
   population:  number;                   
 }
@@ -35,6 +44,7 @@ export class Country {
   readonly languages:  Record<string, string>;
   readonly currencies: Record<string, Currency>;
   readonly flag:       string;
+  readonly flags:      CountryFlags;
   readonly maps:       Maps;
   readonly population: number;
 
@@ -47,6 +57,7 @@ export class Country {
     this.languages  = props.languages;
     this.currencies = props.currencies;
     this.flag       = props.flag;
+    this.flags      = props.flags;
     this.maps       = props.maps;
     this.population = props.population;
   }

@@ -16,7 +16,14 @@ class CountryController{
         const countries = await this.countryUseCase.getAllCountries();
         res.json(countries);
       } catch (error) {
-        res.status(500).json({ error: 'Error al obtener los paises' });
+        console.error("getCountries:", error);
+        const payload: { error: string; message?: string } = {
+          error: "Error al obtener los paises",
+        };
+        if (process.env.NODE_ENV !== "production" && error instanceof Error) {
+          payload.message = error.message;
+        }
+        res.status(500).json(payload);
       }
     };
 
