@@ -108,3 +108,24 @@ GET /countries/distance?from=Colombia&to=Peru
    npm run dev
    ```
 
+   ---
+
+   ## Variables de entorno
+
+### Archivo requerido
+Se debe crear el archivo:
+
+- `planetTravelBack/.env`
+
+### Lista de variables necesarias (`planetTravelBack/.env`)
+
+```bash
+PORT=3000
+```
+
+### ¿Para qué se usa?
+- `PORT`: Se define el puerto desde el cual se va a consumir el API.
+
+---
+
+
