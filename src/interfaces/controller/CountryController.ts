@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import CountryUsecase from '../../application/usecase/CountryUsecase';
 import { Country } from '../../domain/Country';
+import { GetDistanceDto } from '../../application/dtos/get-distance.dto';
+import { SearchCountryDto } from '../../application/dtos/search-country.dto';
+import { GetCountryCodeDto } from '../../application/dtos/get-country-code.dto';
 
 class CountryController{
 
@@ -29,9 +32,15 @@ class CountryController{
 
 
     public getCountryByCode = async (req: Request, res: Response) => {
-      const { code } = req.params as { code: string };
+
+      const [error, dto] = GetCountryCodeDto.create(req.params);
+
+      if (error) {
+        return res.status(400).json({ error });
+      }
+
       try {
-        const country = await this.countryUseCase.getCountryByCode(code);
+        const country = await this.countryUseCase.getCountryByCode(dto!.code);
         res.json(country);
       } catch (error) {
         res.status(404).json({ error: 'Pais no encontrado' });
@@ -39,24 +48,44 @@ class CountryController{
     };
     
     public getCountryByName = async (req: Request, res: Response) => {
-      const { name } = req.query as { name: string };
+
+      const [error, dto] = SearchCountryDto.create(req.query);
+      
+      if (error) {
+        return res.status(400).json({ error });
+      }
+
       try {
-        const country = await this.countryUseCase.getCountryByName(name);
+        const country = await this.countryUseCase.getCountryByName(dto!.name);
         res.json(country);
       } catch (error) {
         res.status(404).json({ error: 'Pais no encontrado' });
       }
     };
-    
+
+
     public getDistance = async (req: Request, res: Response) => {
-      const { from, to } = req.query as { from: string, to: string };
+      
+      const [error, dto] = GetDistanceDto.create(req.query);
+      
+      if (error) {
+        return res.status(400).json({ error });
+      }
+
       try {
-        const respuesta = await this.countryUseCase.getDistance(from, to);
-        res.json(respuesta);
+        const respuesta = await this.countryUseCase.getDistance(
+          dto!.from,
+          dto!.to
+        );
+
+        res.json({distance: respuesta });
+
       } catch (error) {
-        res.status(500).json({ error: 'Error al calcular la distancia' });
+        res.status(409).json({ error: 'Error al calcular la distancia' });
       }
     };
+        
+    
 
 }
 
